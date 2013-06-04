@@ -177,6 +177,8 @@ int main()
 
 #include "Property_stub_impl.h"
 
+#include "rulesets/PythonScriptFactory.h"
+
 #include "common/Inheritance.h"
 #include "common/log.h"
 #include "common/PropertyFactory_impl.h"
@@ -291,6 +293,75 @@ void PropertyManager::installFactory(const std::string & name,
                                      PropertyKit * factory)
 {
 }
+
+PythonClass::PythonClass(const std::string & package,
+                         const std::string & type,
+                         struct _typeobject * base) : m_package(package),
+                                                m_type(type),
+                                                m_base(base),
+                                                m_module(0),
+                                                m_class(0)
+{
+}
+
+PythonClass::~PythonClass()
+{
+}
+
+int PythonClass::load()
+{
+    return 0;
+}
+
+int PythonClass::getClass(struct _object *)
+{
+    return 0;
+}
+
+int PythonClass::refresh()
+{
+    return 0;
+}
+
+template <class T>
+PythonScriptFactory<T>::PythonScriptFactory(const std::string & package,
+                                         const std::string & type) :
+                                         PythonClass(package,
+                                                     type,
+                                                     0)
+{
+}
+
+template <class T>
+PythonScriptFactory<T>::~PythonScriptFactory()
+{
+}
+
+template <class T>
+int PythonScriptFactory<T>::setup()
+{
+    return 0;
+}
+
+template <class T>
+const std::string & PythonScriptFactory<T>::package() const
+{
+    return m_package;
+}
+
+template <class T>
+int PythonScriptFactory<T>::addScript(T * entity) const
+{
+    return 0;
+}
+
+template <class T>
+int PythonScriptFactory<T>::refreshClass()
+{
+    return 0;
+}
+
+template class PythonScriptFactory<PropertyBase>;
 
 Root atlasOpDefinition(const std::string & name, const std::string & parent)
 {

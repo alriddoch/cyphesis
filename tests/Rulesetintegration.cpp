@@ -1246,6 +1246,7 @@ int PythonScriptFactory<T>::refreshClass()
 }
 
 template class PythonScriptFactory<LocatedEntity>;
+template class PythonScriptFactory<PropertyBase>;
 template class PythonScriptFactory<Task>;
 
 void Task::initTask(const Operation & op, OpVector & res)

@@ -55,6 +55,25 @@ PythonScriptFactory<BaseMind>::PythonScriptFactory(const std::string & package,
 {
 }
 
-template class PythonScriptFactory<LocatedEntity>;
-template class PythonScriptFactory<Task>;
+template<>
+PythonScriptFactory<PropertyBase>::PythonScriptFactory(const std::string & p,
+                                                       const std::string & t) :
+                                                       PythonClass(p,
+                                                                   t,
+                                                                   &PyMind_Type)
+{
+}
+
+// FIXME This is a temporary speciailisation, as we are not yet able
+// to attach scripts to properties. Remove this, or write the necessary
+// special case code.
+template<>
+int PythonScriptFactory<PropertyBase>::addScript(PropertyBase *) const
+{
+    return -1;
+}
+
 template class PythonScriptFactory<BaseMind>;
+template class PythonScriptFactory<LocatedEntity>;
+template class PythonScriptFactory<PropertyBase>;
+template class PythonScriptFactory<Task>;

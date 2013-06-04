@@ -22,9 +22,17 @@
 
 class PropertyBase;
 
+template<class T>
+class ScriptKit;
+
 /// \brief Kit interface for factories to create Property objects.
 class PropertyKit {
+  protected:
+    // FIXME Replace with initializer
+    PropertyKit() : m_scriptFactory(0) { }
   public:
+    ScriptKit<PropertyBase> * m_scriptFactory;
+
     virtual ~PropertyKit() = 0;
 
     virtual PropertyBase * newProperty() = 0;

@@ -82,6 +82,26 @@ int PropertyRuleHandler::install(const std::string & name,
             PropertyKit * factory = parent_factory->scriptPropertyFactory();
             if (factory == 0) {
                 log(NOTICE, compose("Property \"%1\" cannot be scripted.", name));
+            } else {
+                // FIXME This is duplicate code from EntityRuleHandler
+                if (factory->m_scriptFactory == 0 ||
+                    factory->m_scriptFactory->package() != script_package) {
+                    PythonScriptFactory<PropertyBase> * psf =
+                          new PythonScriptFactory<PropertyBase>(script_package,
+                                                                 script_class);
+                    if (psf->setup() == 0) {
+                        delete factory->m_scriptFactory;
+                        factory->m_scriptFactory = psf;
+                    } else {
+                        log(ERROR, compose("Python class \"%1.%2\" failed to load",
+                                           script_package, script_class));
+                        delete psf;
+                        return -1;
+                    }
+                } else {
+                    // FIXME If this fails, that's bad.
+                    factory->m_scriptFactory->refreshClass();
+                }
             }
         } else {
             log(NOTICE, compose("Property \"%1\" has a malformed script.", name));
