@@ -8,4 +8,16 @@
     </list>
   </map>
 
+  <map>
+    <string name="id">bob</string>
+    <string name="objtype">type</string>
+    <list name="parents">
+      <string>map</string>
+    </list>
+    <map name="script">
+      <string name="language">python</string>
+      <string name="name">world.tasks.Baking.Baking</string>
+    </map>
+  </map>
+
 </atlas>
