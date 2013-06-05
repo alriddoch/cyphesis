@@ -93,8 +93,8 @@ void Domain::tick(double t)
 }
 
 TerrainProperty::TerrainProperty() :
-    m_data(*(Mercator::Terrain*)0),
-    m_tileShader(*(Mercator::TileShader*)0)
+    m_data(*(dymaxion::Terrain*)0),
+    m_tileShader(*(dymaxion::TileShader*)0)
 {
 }
 

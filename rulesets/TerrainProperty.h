@@ -26,7 +26,7 @@
 
 #include <set>
 
-namespace Mercator {
+namespace dymaxion {
     class Terrain;
     class TerrainMod;
     class TileShader;
@@ -39,9 +39,9 @@ typedef std::map<int, std::set<int> > PointSet;
 class TerrainProperty : public PropertyBase {
   protected:
     /// \brief Reference to variable holding the value of this Property
-    Mercator::Terrain & m_data;
+    dymaxion::Terrain & m_data;
     /// \brief Reference to a variable holding the tile shader
-    Mercator::TileShader & m_tileShader;
+    dymaxion::TileShader & m_tileShader;
     /// FIXME This should be a reference for consistency. Or could it
     /// even be stored in the mercator terrain entity.
     /// \brief Collection of surface data, cos I don't care!
@@ -59,14 +59,14 @@ class TerrainProperty : public PropertyBase {
     virtual void set(const Atlas::Message::Element &);
     virtual TerrainProperty * copy() const;
 
-    // Applies a Mercator::TerrainMod to the terrain
-    void addMod(const Mercator::TerrainMod *) const;
+    // Applies a dymaxion::TerrainMod to the terrain
+    void addMod(const dymaxion::TerrainMod *) const;
     // Removes all TerrainMods from a terrain segment
     void clearMods(float, float);
     // Removes a single TerrainMod from the terrain
-    void updateMod(const Mercator::TerrainMod *) const;
+    void updateMod(const dymaxion::TerrainMod *) const;
     // Removes a single TerrainMod from the terrain
-    void removeMod(const Mercator::TerrainMod *) const;
+    void removeMod(const dymaxion::TerrainMod *) const;
 
     bool getHeightAndNormal(float x, float y, float &, Vector3D &) const;
     int getSurface(const Point3D &,  int &);

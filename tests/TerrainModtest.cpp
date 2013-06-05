@@ -63,13 +63,13 @@ static int test_reparse()
         mod["type"] = "levelmod";
         ret = titm->parseData(pos, orientation, mod);
         assert(ret);
-        Mercator::TerrainMod * tm1 = titm->getModifier();
+        dymaxion::TerrainMod * tm1 = titm->getModifier();
         assert(tm1 != 0);
 
         // Re-parse the same data. Should update the mod in place.
         ret = titm->parseData(pos, orientation, mod);
         assert(ret);
-        Mercator::TerrainMod * tm2 = titm->getModifier();
+        dymaxion::TerrainMod * tm2 = titm->getModifier();
         assert(tm2 != 0);
         assert(tm2 == tm1);
 
@@ -81,7 +81,7 @@ static int test_reparse()
         mod["type"] = "levelmod";
         ret = titm->parseData(pos, orientation, mod);
         assert(ret);
-        Mercator::TerrainMod * tm3 = titm->getModifier();
+        dymaxion::TerrainMod * tm3 = titm->getModifier();
         assert(tm3 != 0);
         assert(tm3 != tm1);
 
@@ -89,7 +89,7 @@ static int test_reparse()
         mod["type"] = "adjustmod";
         ret = titm->parseData(pos, orientation, mod);
         assert(ret);
-        Mercator::TerrainMod * tm4 = titm->getModifier();
+        dymaxion::TerrainMod * tm4 = titm->getModifier();
         assert(tm4 != 0);
         assert(tm4 != tm1);
 

@@ -24,7 +24,7 @@
 
 #include "physics/Vector3D.h"
 
-namespace Mercator {
+namespace dymaxion {
     class TerrainMod;
 }
 
@@ -37,10 +37,10 @@ class TerrainModProperty : public TerrainEffectorProperty {
   protected:
 
     /// \brief A pointer to the modifier returned by a call to Terrain::addMod()
-    Mercator::TerrainMod *m_modptr;
+    dymaxion::TerrainMod *m_modptr;
 
     /**
-     * @brief The inner terrain mod instance which holds the actual Mercator::TerrainMod instance and handles the parsing of it.
+     * @brief The inner terrain mod instance which holds the actual dymaxion::TerrainMod instance and handles the parsing of it.
      * In order to be able to better support different types of mods the actual instance will be any of the subclasses of InnerTerrainMod, depending on the type of the mod.
      */
     TerrainModTranslator* m_innerMod;
@@ -58,12 +58,12 @@ class TerrainModProperty : public TerrainEffectorProperty {
                                     const Operation &,
                                     OpVector &);
 
-    Mercator::TerrainMod * getModifier() {
+    dymaxion::TerrainMod * getModifier() {
         return m_modptr;
     }
 
-    /// \brief Constructs a Mercator::TerrainMod from Atlas data
-    Mercator::TerrainMod * parseModData(LocatedEntity * owner,
+    /// \brief Constructs a dymaxion::TerrainMod from Atlas data
+    dymaxion::TerrainMod * parseModData(LocatedEntity * owner,
                                         const Atlas::Message::MapType &);
 
     /// \brief Changes a modifier's position

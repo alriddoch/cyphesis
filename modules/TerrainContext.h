@@ -24,7 +24,7 @@
 
 #include <dymaxion/TerrainMod.h>
 
-class TerrainContext : public Mercator::Effector::Context
+class TerrainContext : public dymaxion::Effector::Context
 {
   protected:
     EntityRef m_entity;

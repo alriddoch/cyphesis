@@ -162,11 +162,11 @@ bool TerrainModTranslator::parseData(const WFMath::Point<3> & pos,
 {
     WFMath::Polygon<2> p;
     p.addCorner(0, WFMath::Point<2>(0., 0.));
-    m_mod = new Mercator::LevelTerrainMod<WFMath::Polygon>(1.f, p);
+    m_mod = new dymaxion::LevelTerrainMod<WFMath::Polygon>(1.f, p);
     return true;
 }
 
-Mercator::TerrainMod* TerrainModTranslator::getModifier()
+dymaxion::TerrainMod* TerrainModTranslator::getModifier()
 {
     return m_mod;
 }

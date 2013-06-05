@@ -47,8 +47,8 @@ using Atlas::Message::MapType;
 using Atlas::Message::ListType;
 using Atlas::Message::FloatType;
 
-typedef Mercator::Terrain::Pointstore Pointstore;
-typedef Mercator::Terrain::Pointcolumn Pointcolumn;
+typedef dymaxion::Terrain::Pointstore Pointstore;
+typedef dymaxion::Terrain::Pointcolumn Pointcolumn;
 
 typedef enum { ROCK = 0, SAND = 1, GRASS = 2, SILT = 3, SNOW = 4} Surface;
 
@@ -61,15 +61,15 @@ typedef enum { ROCK = 0, SAND = 1, GRASS = 2, SILT = 3, SNOW = 4} Surface;
 /// created points
 /// @param flags Flags indicating how this Property should be handled
 TerrainProperty::TerrainProperty() :
-      m_data(*new Mercator::Terrain(Mercator::Terrain::SHADED)),
-      m_tileShader(*new Mercator::TileShader)
+      m_data(*new dymaxion::Terrain(dymaxion::Terrain::SHADED)),
+      m_tileShader(*new dymaxion::TileShader)
 
 {
-    m_tileShader.addShader(new Mercator::FillShader(), ROCK);
-    m_tileShader.addShader(new Mercator::BandShader(-2.f, 1.5f), SAND);
-    m_tileShader.addShader(new Mercator::GrassShader(1.f, 80.f, .5f, 1.f), GRASS);
-    m_tileShader.addShader(new Mercator::DepthShader(0.f, -10.f), SILT);
-    m_tileShader.addShader(new Mercator::HighShader(110.f), SNOW);
+    m_tileShader.addShader(new dymaxion::FillShader(), ROCK);
+    m_tileShader.addShader(new dymaxion::BandShader(-2.f, 1.5f), SAND);
+    m_tileShader.addShader(new dymaxion::GrassShader(1.f, 80.f, .5f, 1.f), GRASS);
+    m_tileShader.addShader(new dymaxion::DepthShader(0.f, -10.f), SILT);
+    m_tileShader.addShader(new dymaxion::HighShader(110.f), SNOW);
     m_data.addShader(&m_tileShader, 0);
 }
 
@@ -167,24 +167,24 @@ TerrainProperty * TerrainProperty::copy() const
     return new TerrainProperty(*this);
 }
 
-void TerrainProperty::addMod(const Mercator::TerrainMod *mod) const
+void TerrainProperty::addMod(const dymaxion::TerrainMod *mod) const
 {
     m_data.addMod(mod);
 }
 
-void TerrainProperty::updateMod(const Mercator::TerrainMod *mod) const
+void TerrainProperty::updateMod(const dymaxion::TerrainMod *mod) const
 {
     m_data.updateMod(mod);
 }
 
-void TerrainProperty::removeMod(const Mercator::TerrainMod *mod) const
+void TerrainProperty::removeMod(const dymaxion::TerrainMod *mod) const
 {
     m_data.removeMod(mod);
 }
 
 void TerrainProperty::clearMods(float x, float y)
 {
-    Mercator::Segment *s = m_data.getSegment(x,y);
+    dymaxion::Segment *s = m_data.getSegment(x,y);
     if(s != NULL) {
         s->clearMods();
         //log(INFO, "Mods cleared!");
@@ -197,7 +197,7 @@ bool TerrainProperty::getHeightAndNormal(float x,
                                          float & height,
                                          Vector3D & normal) const
 {
-    Mercator::Segment * s = m_data.getSegment(x, y);
+    dymaxion::Segment * s = m_data.getSegment(x, y);
     if (s != 0 && !s->isValid()) {
         s->populate();
     }
@@ -213,7 +213,7 @@ int TerrainProperty::getSurface(const Point3D & pos, int & material)
 {
     float x = pos.x(),
           y = pos.y();
-    Mercator::Segment * segment = m_data.getSegment(x, y);
+    dymaxion::Segment * segment = m_data.getSegment(x, y);
     if (segment == 0) {
         debug(std::cerr << "No terrain at this point" << std::endl << std::flush;);
         return -1;
@@ -225,7 +225,7 @@ int TerrainProperty::getSurface(const Point3D & pos, int & material)
     y -= segment->getYRef();
     assert(x <= segment->getSize());
     assert(y <= segment->getSize());
-    const Mercator::Segment::Surfacestore & surfaces = segment->getSurfaces();
+    const dymaxion::Segment::Surfacestore & surfaces = segment->getSurfaces();
     WFMath::Vector<3> normal;
     float height = -23;
     segment->getHeightAndNormal(x, y, height, normal);
@@ -237,7 +237,7 @@ int TerrainProperty::getSurface(const Point3D & pos, int & material)
         log(ERROR, "The terrain has no surface data");
         return -1;
     }
-    Mercator::Surface & tile_surface = *surfaces.begin()->second;
+    dymaxion::Surface & tile_surface = *surfaces.begin()->second;
     if (!tile_surface.isValid()) {
         tile_surface.populate();
     }
@@ -252,19 +252,19 @@ int TerrainProperty::getSurface(const Point3D & pos, int & material)
 void TerrainProperty::findMods(const Point3D & pos,
                                std::vector<LocatedEntity *> & ret)
 {
-    Mercator::Segment * seg = m_data.getSegment(pos.x(), pos.y());
+    dymaxion::Segment * seg = m_data.getSegment(pos.x(), pos.y());
     if (seg == 0) {
         return;
     }
-    const Mercator::ModList & seg_mods = seg->getMods();
-    Mercator::ModList::const_iterator I = seg_mods.begin();
-    Mercator::ModList::const_iterator Iend = seg_mods.end();
+    const dymaxion::ModList & seg_mods = seg->getMods();
+    dymaxion::ModList::const_iterator I = seg_mods.begin();
+    dymaxion::ModList::const_iterator Iend = seg_mods.end();
     for (; I != Iend; ++I) {
-        const Mercator::TerrainMod * mod = *I;
+        const dymaxion::TerrainMod * mod = *I;
         WFMath::AxisBox<2> mod_box = mod->bbox();
         if (pos.x() > mod_box.lowCorner().x() && pos.x() < mod_box.highCorner().x() &&
             pos.y() > mod_box.lowCorner().y() && pos.y() < mod_box.highCorner().y()) {
-            Mercator::Effector::Context * c = mod->context();
+            dymaxion::Effector::Context * c = mod->context();
             if (c == 0) {
                 log(WARNING, "Terrrain mod with no context");
                 continue;

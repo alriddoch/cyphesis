@@ -88,7 +88,7 @@ void TerrainModProperty::apply(LocatedEntity * owner)
     }
 
     // Parse the Atlas data for our mod
-    Mercator::TerrainMod * mod = parseModData(owner, m_data);
+    dymaxion::TerrainMod * mod = parseModData(owner, m_data);
 
     if (mod == 0) {
         log(ERROR, "Terrain Modifier could not be parsed!");
@@ -136,7 +136,7 @@ void TerrainModProperty::move(LocatedEntity* owner)
         return;
     }
 
-    Mercator::TerrainMod* mod = parseModData(owner, m_data);
+    dymaxion::TerrainMod* mod = parseModData(owner, m_data);
 
     if (mod == 0) {
         log(ERROR, "Terrain Modifier could not be parsed!");
@@ -162,7 +162,7 @@ void TerrainModProperty::remove(LocatedEntity * owner)
     }
 }
 
-Mercator::TerrainMod * TerrainModProperty::parseModData(LocatedEntity * owner,
+dymaxion::TerrainMod * TerrainModProperty::parseModData(LocatedEntity * owner,
                                                         const MapType & modMap)
 {
     if (m_innerMod == 0) {

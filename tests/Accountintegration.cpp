@@ -1011,8 +1011,8 @@ HandlerResult TeleportProperty::operation(LocatedEntity * ent,
 }
 
 TerrainProperty::TerrainProperty() :
-      m_data(*(Mercator::Terrain*)0),
-      m_tileShader(*(Mercator::TileShader*)0)
+      m_data(*(dymaxion::Terrain*)0),
+      m_tileShader(*(dymaxion::TileShader*)0)
 {
 }
 
@@ -1087,7 +1087,7 @@ Pedestrian::Pedestrian(LocatedEntity & body) : Movement(body)
 {
 }
 
-Mercator::TerrainMod * TerrainModProperty::parseModData(LocatedEntity * owner,
+dymaxion::TerrainMod * TerrainModProperty::parseModData(LocatedEntity * owner,
                                                         const MapType & modMap)
 {
     return 0;

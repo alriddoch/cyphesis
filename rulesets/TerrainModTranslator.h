@@ -24,7 +24,7 @@
 
 #include <wfmath/point.h>
 
-namespace Mercator {
+namespace dymaxion {
     class TerrainMod;
 }
 
@@ -51,11 +51,11 @@ public:
                    const Atlas::Message::MapType &);
     
     /**
-     * @brief Accessor for the Mercator::TerrainMod created and held by this instance.
+     * @brief Accessor for the dymaxion::TerrainMod created and held by this instance.
      * If no terrain mod could be created, such as with faulty Atlas data, or if parseData() hasn't been called yet, this will return a null pointer.
      * @return A pointer to the TerrainMod held by this instance, or null if none created.
      */
-    Mercator::TerrainMod* getModifier();
+    dymaxion::TerrainMod* getModifier();
 
     TerrainModTranslator();
     
@@ -83,7 +83,7 @@ protected:
                         const WFMath::Point<3>& pos,
                         const Atlas::Message::MapType &);
 
-    Mercator::TerrainMod * m_mod;
+    dymaxion::TerrainMod * m_mod;
 };
 
 #endif // RULESETS_TERRAIN_MOD_TRANSLATOR_H

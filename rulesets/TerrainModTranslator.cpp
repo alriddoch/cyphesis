@@ -62,13 +62,13 @@ bool TerrainModTranslator::parseStuff(
         return false;
     }
     if (typeName == "slopemod") {
-        return createInstance<Mercator::SlopeTerrainMod>(shape, pos, modElement, 0, 0);
+        return createInstance<dymaxion::SlopeTerrainMod>(shape, pos, modElement, 0, 0);
     } else if (typeName == "levelmod") {
-        return createInstance<Mercator::LevelTerrainMod>(shape, pos, modElement);
+        return createInstance<dymaxion::LevelTerrainMod>(shape, pos, modElement);
     } else if (typeName == "adjustmod") {
-        return createInstance<Mercator::AdjustTerrainMod>(shape, pos, modElement);
+        return createInstance<dymaxion::AdjustTerrainMod>(shape, pos, modElement);
     } else if (typeName == "cratermod") {
-        return createInstance<Mercator::CraterTerrainMod>(shape, pos, modElement);
+        return createInstance<dymaxion::CraterTerrainMod>(shape, pos, modElement);
     }
     return false;
 }
@@ -117,7 +117,7 @@ bool TerrainModTranslator::parseData(
 }
 
 
-Mercator::TerrainMod* TerrainModTranslator::getModifier()
+dymaxion::TerrainMod* TerrainModTranslator::getModifier()
 {
     return m_mod;
 }
