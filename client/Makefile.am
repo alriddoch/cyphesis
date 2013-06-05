@@ -5,7 +5,7 @@ bin_PROGRAMS = cyclient
 if LINK_STATIC
 
 CLIENT_LIBS = \
-    /usr/lib/libmercator-0.2.a \
+    /usr/lib/libdymaxion-0.2.a \
     /usr/lib/libskstream-0.3.a \
     /usr/lib/libvarconf-1.0.a \
     /usr/lib/libwfmath-0.3.a \
