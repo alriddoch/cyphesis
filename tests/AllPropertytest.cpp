@@ -42,7 +42,7 @@
 #include "common/Property_impl.h"
 #include "common/TypeNode.h"
 
-#include <Mercator/Terrain.h>
+#include <dymaxion/Terrain.h>
 
 #include <cassert>
 

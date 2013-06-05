@@ -30,7 +30,7 @@
 #include "modules/Location.h"
 #include "modules/TerrainContext.h"
 
-#include <Mercator/TerrainMod.h>
+#include <dymaxion/TerrainMod.h>
 
 #include <Atlas/Objects/RootEntity.h>
 #include <Atlas/Objects/Operation.h>

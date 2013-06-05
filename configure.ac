@@ -334,16 +334,16 @@ Please see http://worldforge.org/dev/eng/servers/cyphesis for details of the
 libraries required and where to obtain them.])
     ])
 
-PKG_CHECK_MODULES(MERCATOR, mercator-0.3 >= 0.3.0,
+PKG_CHECK_MODULES(DYMAXION, dymaxion-0.3 >= 0.3.0,
     [
-        CPPFLAGS="$CPPFLAGS $MERCATOR_CFLAGS"
-        TERRAIN_LIBS="$TERRAIN_LIBS $MERCATOR_LIBS"
+        CPPFLAGS="$CPPFLAGS $DYMAXION_CFLAGS"
+        TERRAIN_LIBS="$TERRAIN_LIBS $DYMAXION_LIBS"
     ],
     [
         AC_MSG_RESULT([no])
         AC_MSG_ERROR([
-Cannot find valid versions of required WorldForge terrain library, mercator:
-$MERCATOR_PKG_ERRORS
+Cannot find valid versions of required WorldForge terrain library, dymaxion:
+$DYMAXION_PKG_ERRORS
 Perhaps you should add the directory containing the missing libraries to the
 PKG_CONFIG_PATH environment variable.
 Please see http://worldforge.org/dev/eng/servers/cyphesis for details of the

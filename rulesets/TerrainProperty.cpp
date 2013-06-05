@@ -24,15 +24,15 @@
 
 #include "modules/TerrainContext.h"
 
-#include <Mercator/Terrain.h>
-#include <Mercator/Segment.h>
-#include <Mercator/Surface.h>
-#include <Mercator/TerrainMod.h>
-#include <Mercator/TileShader.h>
-#include <Mercator/FillShader.h>
-#include <Mercator/ThresholdShader.h>
-#include <Mercator/DepthShader.h>
-#include <Mercator/GrassShader.h>
+#include <dymaxion/Terrain.h>
+#include <dymaxion/Segment.h>
+#include <dymaxion/Surface.h>
+#include <dymaxion/TerrainMod.h>
+#include <dymaxion/TileShader.h>
+#include <dymaxion/FillShader.h>
+#include <dymaxion/ThresholdShader.h>
+#include <dymaxion/DepthShader.h>
+#include <dymaxion/GrassShader.h>
 
 #include <wfmath/intersect.h>
 

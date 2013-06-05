@@ -28,7 +28,7 @@
 
 #include "rulesets/TerrainProperty.h"
 
-#include <Mercator/Terrain.h>
+#include <dymaxion/Terrain.h>
 
 using Atlas::Message::ListType;
 using Atlas::Message::MapType;

@@ -22,7 +22,7 @@
 #include "common/log.h"
 #include "common/debug.h"
 
-#include <Mercator/TerrainMod.h>
+#include <dymaxion/TerrainMod.h>
 
 #include <wfmath/atlasconv.h>
 

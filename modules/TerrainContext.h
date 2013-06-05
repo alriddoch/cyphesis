@@ -22,7 +22,7 @@
 
 #include "modules/EntityRef.h"
 
-#include <Mercator/TerrainMod.h>
+#include <dymaxion/TerrainMod.h>
 
 class TerrainContext : public Mercator::Effector::Context
 {

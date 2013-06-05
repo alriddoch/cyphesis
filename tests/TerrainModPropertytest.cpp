@@ -145,7 +145,7 @@ LocatedEntity * TestWorld::addNewEntity(const std::string &,
 
 #include "modules/TerrainContext.h"
 
-#include <Mercator/TerrainMod.h>
+#include <dymaxion/TerrainMod.h>
 
 const TerrainProperty * TerrainEffectorProperty::getTerrain(LocatedEntity * owner)
 {
