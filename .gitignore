@@ -33,8 +33,10 @@ tools/cypython
 man/manpage.*
 tests/*test
 tests/*test.log
+tests/*test.trs
 tests/*integration
 tests/*integration.log
+tests/*integration.trs
 tests/test-suite.log
 doc
 python_doc
