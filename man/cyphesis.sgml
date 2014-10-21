@@ -54,6 +54,7 @@ Name of the top level ruleset this server should use.
       <para>
 Normally this directory is set at compile time, but in some rare cases it
 may be necessary to tell cyphesis to use a different directory.
+      </para>
       
      </listitem>
     </varlistentry>
