@@ -1000,6 +1000,7 @@ TerrainPropertyintegration_LDADD = \
         $(top_builddir)/common/PropertyManager.o \
         $(top_builddir)/common/Router.o \
         $(top_builddir)/common/operations.o \
+        $(top_builddir)/common/atlas_boost_geometry.o \
         $(top_builddir)/common/id.o \
         $(TERRAIN_LIBS)
 
@@ -1038,6 +1039,7 @@ TerrainModPropertyintegration_LDADD = \
         $(top_builddir)/modules/TerrainContext.o \
         $(top_builddir)/common/Property.o \
         $(top_builddir)/common/TypeNode.o \
+        $(top_builddir)/common/atlas_boost_geometry.o \
         $(TERRAIN_LIBS)
 
 StatisticsPropertyintegration_SOURCES = StatisticsPropertyintegration.cpp

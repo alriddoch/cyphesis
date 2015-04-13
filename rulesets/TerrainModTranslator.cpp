@@ -19,6 +19,7 @@
 
 #include "TerrainModTranslator.h"
 
+#include "common/atlas_boost_geometry.h"
 #include "common/log.h"
 #include "common/debug.h"
 
@@ -26,12 +27,20 @@
 
 #include <wfmath/atlasconv.h>
 
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/ring.hpp>
+
 #include <cassert>
 
 using Atlas::Message::Element;
 using Atlas::Message::MapType;
 using Atlas::Message::ListType;
 using Atlas::Message::FloatType;
+
+using point = boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian>;
+using ring = boost::geometry::model::ring<point>;
 
 /**
  * @brief Ctor.
@@ -49,13 +58,13 @@ TerrainModTranslator::TerrainModTranslator() : m_mod(0)
  * @param shape Reference to the shape object to be populated
  * @param shapeMap Atlas data containing the shape parameters
  */
-template <template <int> class Shape>
+template <class Shape>
 bool TerrainModTranslator::parseStuff(
       const WFMath::Point<3> & pos,
       const WFMath::Quaternion & orientation,
       const MapType& modElement,
       const std::string & typeName,
-      Shape<2> & shape,
+      Shape & shape,
       const Element & shapeMap)
 {
     if (!parseShape(shapeMap, pos, orientation, shape)) {
@@ -103,14 +112,8 @@ bool TerrainModTranslator::parseData(
         return false;
     }
     const std::string& shapeType = I->second.String();
-    if (shapeType == "ball") {
-        WFMath::Ball<2> shape;
-        return parseStuff(pos, orientation, modElement, modType, shape, shapeMap);
-    } else if (shapeType == "rotbox") {
-        WFMath::RotBox<2> shape;
-        return parseStuff(pos, orientation, modElement, modType, shape, shapeMap);
-    } else if (shapeType == "polygon") {
-        WFMath::Polygon<2> shape;
+    if (shapeType == "polygon") {
+        ring shape;
         return parseStuff(pos, orientation, modElement, modType, shape, shapeMap);
     }
     return false;
@@ -176,25 +179,21 @@ float TerrainModTranslator::parsePosition(
  * @return True if the atlas data was successfully parsed and a shape was
  * created.
  */
-template<template <int> class Shape>
+template<class Shape>
 bool TerrainModTranslator::parseShape(
       const Element& shapeElement,
       const WFMath::Point<3>& pos,
       const WFMath::Quaternion& orientation,
-      Shape <2> & shape)
+      Shape & shape)
 {
-    try {
-        shape.fromAtlas(shapeElement);
-    } catch (...) {
+    if (boostGeometryFromMessage(shapeElement, shape) != 0)
+    {
         ///Just log an error and return false, this isn't fatal.
         log(WARNING, "Error when parsing shape from atlas.");
         return false;
     }
 
-    if (!shape.isValid()) {
-        return false;
-    }
-
+#if 0
     if (orientation.isValid()) {
         /// rotation about Z axis
         WFMath::Vector<3> xVec = WFMath::Vector<3>(1.0, 0.0, 0.0).rotate(orientation);
@@ -204,6 +203,7 @@ bool TerrainModTranslator::parseShape(
     }
 
     shape.shift(WFMath::Vector<2>(pos.x(), pos.y()));
+#endif
     return true;
 }
 
@@ -213,10 +213,10 @@ bool TerrainModTranslator::parseShape(
  * @param pos Position of the mod entity
  * @return True if the atlas data could be successfully parsed
  */
-template <template <template <int> class Shape> class Mod,
-          template <int> class Shape>
+template <template <class Shape> class Mod,
+          class Shape>
 bool TerrainModTranslator::createInstance(
-      Shape <2> & shape,
+      Shape & shape,
       const WFMath::Point<3>& pos,
       const MapType& modElement,
       float ,
@@ -257,10 +257,10 @@ bool TerrainModTranslator::createInstance(
  * @param pos Position of the mod entity
  * @return True if the atlas data could be successfully parsed
  */
-template <template <template <int> class S> class Mod,
-          template <int> class Shape>
+template <template <class S> class Mod,
+          class Shape>
 bool TerrainModTranslator::createInstance(
-      Shape <2> & shape,
+      Shape & shape,
       const WFMath::Point<3>& pos,
       const MapType& modElement)
 {

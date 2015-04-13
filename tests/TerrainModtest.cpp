@@ -73,18 +73,6 @@ static int test_reparse()
         assert(tm2 != 0);
         assert(tm2 == tm1);
 
-        // Change it to 2D ball shape. This requires a new mod.
-        shape_desc["type"] = "ball";
-        shape_desc["radius"] = 1.f;
-        shape_desc["position"] = ListType(2, 1.);
-        mod["shape"] = shape_desc;
-        mod["type"] = "levelmod";
-        ret = titm->parseData(pos, orientation, mod);
-        assert(ret);
-        dymaxion::TerrainMod * tm3 = titm->getModifier();
-        assert(tm3 != 0);
-        assert(tm3 != tm1);
-
         // Change it to an adjustmod. This requires a new mod
         mod["type"] = "adjustmod";
         ret = titm->parseData(pos, orientation, mod);
@@ -218,62 +206,6 @@ int main()
         delete titm;
     }
 
-    // Call parseData with ball shape
-    {
-        TerrainModTranslator * titm = new TerrainModTranslator;
-        WFMath::Point<3> pos(0,0,-1);
-        WFMath::Quaternion orientation;
-
-        MapType mod;
-        MapType shape_desc;
-        shape_desc["type"] = "ball";
-        mod["shape"] = shape_desc;
-        bool ret = titm->parseData(pos, orientation, mod);
-        assert(!ret);
-
-        delete titm;
-    }
-
-    // Call parseData with ball shape and valid ball params
-    {
-        TerrainModTranslator * titm = new TerrainModTranslator;
-        WFMath::Point<3> pos(0,0,-1);
-        WFMath::Quaternion orientation;
-
-        MapType mod;
-        MapType shape_desc;
-        shape_desc["type"] = "ball";
-        shape_desc["radius"] = 1.f;
-        shape_desc["position"] = ListType(2, 1.);
-        mod["shape"] = shape_desc;
-        mod["type"] = "levelmod";
-        bool ret = titm->parseData(pos, orientation, mod);
-        assert(ret);
-        assert(titm->getModifier() != 0);
-
-        delete titm;
-    }
-
-    // Call parseData with ball shape and valid ball and orientation
-    {
-        TerrainModTranslator * titm = new TerrainModTranslator;
-        WFMath::Point<3> pos(0,0,-1);
-        WFMath::Quaternion orientation(0,0,0,1);
-
-        MapType mod;
-        MapType shape_desc;
-        shape_desc["type"] = "ball";
-        shape_desc["radius"] = 1.f;
-        shape_desc["position"] = ListType(2, 1.);
-        mod["shape"] = shape_desc;
-        mod["type"] = "levelmod";
-        bool ret = titm->parseData(pos, orientation, mod);
-        assert(ret);
-        assert(titm->getModifier() != 0);
-
-        delete titm;
-    }
-
     // Call parseData with polygon shape and valid polygon params
     {
         TerrainModTranslator * titm = new TerrainModTranslator;
@@ -293,46 +225,6 @@ int main()
         delete titm;
     }
 
-    // Call parseData with rotbox shape and valid rotbox params
-    {
-        TerrainModTranslator * titm = new TerrainModTranslator;
-        WFMath::Point<3> pos(0,0,-1);
-        WFMath::Quaternion orientation;
-
-        MapType mod;
-        MapType shape_desc;
-        shape_desc["type"] = "rotbox";
-        shape_desc["point"] = ListType(2, 1.);
-        shape_desc["size"] = ListType(2, 1.);
-        mod["shape"] = shape_desc;
-        mod["type"] = "levelmod";
-        bool ret = titm->parseData(pos, orientation, mod);
-        assert(ret);
-        assert(titm->getModifier() != 0);
-
-        delete titm;
-    }
-
-    // Call parseData with ball shape and invalid ball params
-    {
-        TerrainModTranslator * titm = new TerrainModTranslator;
-        WFMath::Point<3> pos(0,0,-1);
-        WFMath::Quaternion orientation;
-
-        MapType mod;
-        MapType shape_desc;
-        shape_desc["type"] = "ball";
-        shape_desc["radius"] = 1.f;
-        shape_desc["position"] = ListType(3, "1");
-        mod["shape"] = shape_desc;
-        mod["type"] = "levelmod";
-        bool ret = titm->parseData(pos, orientation, mod);
-        assert(!ret);
-        assert(titm->getModifier() == 0);
-
-        delete titm;
-    }
-
     return test_reparse();
 }
 
@@ -342,4 +234,21 @@ int main()
 
 void log(LogLevel lvl, const std::string & msg)
 {
+}
+
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/ring.hpp>
+
+using point = boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian>;
+using ring = boost::geometry::model::ring<point>;
+
+#include "common/atlas_boost_geometry.h"
+
+template <>
+int boostGeometryFromMessage(Atlas::Message::Element const & data,
+                             ring & shape)
+{
+  return 0;
 }

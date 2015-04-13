@@ -36,12 +36,12 @@ The TerrainMod class in itself doesn't hold the actual reference to the terrain 
 class TerrainModTranslator
 {
 protected:
-    template <template <int> class Shape>
+    template <class Shape>
     bool parseStuff(const WFMath::Point<3> & pos,
                     const WFMath::Quaternion & orientation,
                     const Atlas::Message::MapType& modElement,
                     const std::string & typeName,
-                    Shape<2> & shape,
+                    Shape & shape,
                     const Atlas::Message::Element & shapeElement);
 
 public:
@@ -63,23 +63,23 @@ protected:
 
     static float parsePosition(const WFMath::Point<3> & pos, const Atlas::Message::MapType& modElement);
 
-    template <template <int> class Shape>
+    template <class Shape>
     static bool parseShape(const Atlas::Message::Element& shapeElement,
                            const WFMath::Point<3>& pos,
                            const WFMath::Quaternion& orientation,
-                           Shape<2> & shape);
+                           Shape & shape);
 
-    template <template <template <int> class Shape> class Mod,
-              template <int> class Shape>
-    bool createInstance(Shape<2> & shape,
+    template <template <class Shape> class Mod,
+              class Shape>
+    bool createInstance(Shape & shape,
                         const WFMath::Point<3>& pos,
                         const Atlas::Message::MapType &,
                         float,
                         float);
 
-    template <template <template <int> class Shape> class Mod,
-              template <int> class Shape>
-    bool createInstance(Shape<2> & shape,
+    template <template <class Shape> class Mod,
+              class Shape>
+    bool createInstance(Shape & shape,
                         const WFMath::Point<3>& pos,
                         const Atlas::Message::MapType &);
 

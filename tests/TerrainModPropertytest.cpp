@@ -131,6 +131,14 @@ int main()
 
 #include "TestWorld.h"
 
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/ring.hpp>
+
+using point = boost::geometry::model::d2::point_xy<
+        float, boost::geometry::cs::cartesian>;
+using ring = boost::geometry::model::ring<point>;
+
 void TestWorld::message(const Operation & op, LocatedEntity & ent)
 {
 }
@@ -160,9 +168,9 @@ bool TerrainModTranslator::parseData(const WFMath::Point<3> & pos,
                                      const WFMath::Quaternion & orientation,
                                      const MapType& modElement)
 {
-    WFMath::Polygon<2> p;
-    p.addCorner(0, WFMath::Point<2>(0., 0.));
-    m_mod = new dymaxion::LevelTerrainMod<WFMath::Polygon>(1.f, p);
+    ring p;
+    p.push_back(point(0., 0.));
+    m_mod = new dymaxion::LevelTerrainMod<ring>(1.f, p);
     return true;
 }
 

@@ -24,8 +24,8 @@
 
 #include "modules/TerrainContext.h"
 
-#include <dymaxion/Terrain.h>
-#include <dymaxion/Segment.h>
+#include <dymaxion/Terrain_impl.h>
+#include <dymaxion/Segment_impl.h>
 #include <dymaxion/Surface.h>
 #include <dymaxion/TerrainMod.h>
 #include <dymaxion/TileShader.h>
@@ -33,6 +33,7 @@
 #include <dymaxion/ThresholdShader.h>
 #include <dymaxion/DepthShader.h>
 #include <dymaxion/GrassShader.h>
+#include <dymaxion/wfmath_traits.h>
 
 #include <wfmath/intersect.h>
 
@@ -201,7 +202,7 @@ bool TerrainProperty::getHeightAndNormal(float x,
     if (s != 0 && !s->isValid()) {
         s->populate();
     }
-    return m_data.getHeightAndNormal(x, y, height, normal);
+    return m_data.getHeightAndNormalAny(x, y, height, normal);
 }
 
 /// \brief Get a number encoding the surface type at the given x,y coordinates
@@ -228,7 +229,7 @@ int TerrainProperty::getSurface(const Point3D & pos, int & material)
     const dymaxion::Segment::Surfacestore & surfaces = segment->getSurfaces();
     WFMath::Vector<3> normal;
     float height = -23;
-    segment->getHeightAndNormal(x, y, height, normal);
+    segment->getHeightAndNormalAny(x, y, height, normal);
     debug(std::cout << "At the point " << x << "," << y
                     << " of the segment the height is " << height << std::endl;
           std::cout << "The segment has " << surfaces.size()
@@ -261,9 +262,9 @@ void TerrainProperty::findMods(const Point3D & pos,
     dymaxion::ModList::const_iterator Iend = seg_mods.end();
     for (; I != Iend; ++I) {
         const dymaxion::TerrainMod * mod = *I;
-        WFMath::AxisBox<2> mod_box = mod->bbox();
-        if (pos.x() > mod_box.lowCorner().x() && pos.x() < mod_box.highCorner().x() &&
-            pos.y() > mod_box.lowCorner().y() && pos.y() < mod_box.highCorner().y()) {
+        dymaxion::TerrainMod::box const & mod_box = mod->bbox();
+        if (pos.x() > mod_box.min_corner().x() && pos.x() < mod_box.max_corner().x() &&
+            pos.y() > mod_box.min_corner().y() && pos.y() < mod_box.max_corner().y()) {
             dymaxion::Effector::Context * c = mod->context();
             if (c == 0) {
                 log(WARNING, "Terrrain mod with no context");
